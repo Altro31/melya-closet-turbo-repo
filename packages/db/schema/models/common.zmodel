@@ -1,0 +1,9 @@
+
+type IdMixin {
+    id String @id @default(cuid())
+}
+
+type TimestampMixin {
+    createdAt DateTime  @default(now())
+    updatedAt DateTime? @updatedAt
+}

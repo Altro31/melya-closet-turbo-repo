@@ -1,0 +1,15 @@
+import "common"
+import "log"
+import "order"
+
+model User with IdMixin, TimestampMixin {
+    name   String
+    email  String    @email
+    phone  String
+
+    Logs   UserLog[]
+
+    Orders Order[]
+
+    @@map('user')
+}

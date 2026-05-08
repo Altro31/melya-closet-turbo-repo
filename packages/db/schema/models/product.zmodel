@@ -1,0 +1,20 @@
+import "common"
+import "user"
+import "bale"
+import "order"
+
+model Product with IdMixin, TimestampMixin {
+    name         String         @unique
+    description  String?
+    price        Float          @gt(0)
+    currentCount Int            @gte(0)
+    initiaCount  Int            @gte(0)
+    sizes        String[]
+
+    baleId       String
+    Bale         Bale           @relation(fields: [baleId], references: [id])
+
+    Orders       OrderProduct[]
+
+    @@map('product')
+} 

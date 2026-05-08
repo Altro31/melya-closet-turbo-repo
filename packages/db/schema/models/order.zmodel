@@ -1,0 +1,37 @@
+import "common"
+import "product"
+import "client"
+import "user"
+
+model Order with IdMixin, TimestampMixin {
+    details     String
+    status      String
+    type        String
+    paymentType String
+
+    Products    OrderProduct[]
+
+    clientId    String?
+    Client      Client?        @relation(fields: [clientId], references: [id])
+
+    userId      String
+    User        User           @relation(fields: [userId], references: [id])
+
+    totalPrice  Float          @computed
+
+    @@map('order')
+}
+
+model OrderProduct with IdMixin, TimestampMixin {
+
+    price     Float   @gt(0)
+    quantity  Int     @gt(0) @lte(Product.currentCount)
+
+    orderId   String
+    Order     Order   @relation(fields: [orderId], references: [id])
+
+    productId String
+    Product   Product @relation(fields: [productId], references: [id])
+
+    @@map('order_product')
+}

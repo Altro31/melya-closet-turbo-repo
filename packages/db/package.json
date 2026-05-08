@@ -1,0 +1,27 @@
+{
+  "name": "@repo/db",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "zen generate --silent",
+    "generate": "zen generate",
+    "migrate": "zen migrate dev",
+    "studio": "zen studio"
+  },
+  "dependencies": {
+    "@zenstackhq/orm": "^3.5.6",
+    "@zenstackhq/schema": "^3.5.6",
+    "@zenstackhq/zod": "^3.5.6",
+    "pg": "^8.20.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.20.0",
+    "@zenstackhq/cli": "^3.5.6",
+    "typescript": "5.9.3"
+  },
+  "zenstack": {
+    "schema": "schema/schema.zmodel",
+    "output": "schema/generated"
+  }
+}

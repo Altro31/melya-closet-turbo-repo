@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.50",
+  "module": "src/index.js",
+  "imports": {
+    "#*": [
+      "./src/*"
+    ]
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "@zenstackhq/orm": "^3.5.6",
+    "@zenstackhq/zod": "^3.5.6",
+    "elysia": "latest",
+    "pg": "^8.20.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@types/pg": "^8.15.6"
+  }
+}

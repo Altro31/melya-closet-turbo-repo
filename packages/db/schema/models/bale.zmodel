@@ -1,0 +1,34 @@
+import "common"
+import "product"
+
+enum Status {
+    activa
+    dea
+}
+
+model Bale with IdMixin, TimestampMixin {
+    name         String    @unique
+    description  String?
+    price        Float     @gt(0)
+    merma        Int       @gte(0)
+    status       Status
+    currentTotal Int       @gte(0)
+    initialTotal Int       @gt(0)
+    completedAt  DateTime?
+
+    categoryId   String
+    Category     Category  @relation(fields: [categoryId], references: [id])
+
+    Products     Product[]
+
+    @@map('bale')
+}
+
+model Category with IdMixin, TimestampMixin {
+
+    name  String @unique
+
+    Bales Bale[]
+
+    @@map('category')
+}

@@ -1,0 +1,17 @@
+import "common"
+import "log"
+import "order"
+
+model Client with IdMixin, TimestampMixin {
+    name    String?
+    phone   String?
+    address String?
+    details String
+
+    Logs    ClientLog[]
+    Orders  Order[]
+
+    @@validate(name != null || phone != null || address != null,"Must provided almost one of: name, phone or address")
+
+    @@map('client')
+}
