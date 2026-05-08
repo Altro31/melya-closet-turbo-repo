@@ -1,4 +1,4 @@
-import { factory } from "../zod";
+import { factory } from "#zod.ts";
 import z from "zod";
 
 export const CreateBaleSchema = z

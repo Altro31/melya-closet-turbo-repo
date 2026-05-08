@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { db } from "../db";
-import { CreateOrderSchema, UpdateOrderSchema } from "../schemas/models";
-import { IdParamSchema } from "./common";
+import { db } from "../db.ts";
+import { CreateOrderSchema, UpdateOrderSchema } from "../schemas/models.ts";
+import { IdParamSchema } from "./common.ts";
 
 export const orderModule = new Elysia({ prefix: "/api/orders" })
   .post("/", ({ body }) =>

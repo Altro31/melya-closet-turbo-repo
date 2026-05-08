@@ -1,7 +1,9 @@
 {
   "name": "@repo/db",
   "private": true,
-  "type": "module",
+  "exports": {
+    "./*": "./schema/generated/*"
+  },
   "scripts": {
     "prepare": "zen generate --silent",
     "generate": "zen generate",

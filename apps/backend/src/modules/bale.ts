@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
-import { db } from "../db";
-import { CreateBaleSchema, UpdateBaleSchema } from "../schemas/models";
-import { IdParamSchema } from "./common";
+import { db } from "../db.ts";
+import { CreateBaleSchema, UpdateBaleSchema } from "../schemas/models.ts";
+import { IdParamSchema } from "./common.ts";
 
 export const baleModule = new Elysia({ prefix: "/api/bales" })
   .post("/", ({ body }) =>

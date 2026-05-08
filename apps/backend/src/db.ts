@@ -1,7 +1,7 @@
-import { schema, type SchemaType } from "../../../packages/db/schema/generated/schema";
-import { ZenStackClient, type TransactionClientContract } from "@zenstackhq/orm";
+import { ZenStackClient } from "@zenstackhq/orm";
 import { PostgresDialect } from "@zenstackhq/orm/dialects/postgres";
 import { Pool } from "pg";
+import { schema } from "@repo/db/schema.ts";
 
 export const db = new ZenStackClient(schema, {
   dialect: new PostgresDialect({
