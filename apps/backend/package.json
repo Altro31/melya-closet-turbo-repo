@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "bun build src/index.ts",
+    "build": "bun build --target=bun --outfile=dist/index.js src/index.ts",
     "dev": "bun run --watch src/index.ts",
     "check-types": "tsc --noEmit"
   },

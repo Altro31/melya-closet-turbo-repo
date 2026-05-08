@@ -2,10 +2,9 @@
   "$schema": "https://turborepo.dev/schema.json",
   "extends": ["//"],
   "tasks": {
-    "build": {
-      "dependsOn": ["@repo/db#generate"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+    "generate": {
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": ["schema/generated/**"]
     }
   }
 }
