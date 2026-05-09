@@ -5,9 +5,9 @@
   "identifier": "com.lenovo.tauri-try",
   "build": {
     "beforeDevCommand": "pnpm dev",
-    "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "pnpm build",
-    "frontendDist": "../dist"
+    "devUrl": "http://localhost:4001",
+    "frontendDist": "../out"
   },
   "app": {
     "windows": [

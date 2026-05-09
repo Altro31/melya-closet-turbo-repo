@@ -56,6 +56,9 @@ importers:
       '@standard-schema/spec':
         specifier: ^1.1.0
         version: 1.1.0
+      '@tanstack/browser-db-sqlite-persistence':
+        specifier: 0.1.9
+        version: 0.1.9(@journeyapps/wa-sqlite@1.7.0)(typescript@5.9.3)
       '@tanstack/electric-db-collection':
         specifier: 0.3.3
         version: 0.3.3(typescript@5.9.3)
@@ -863,6 +866,9 @@ packages:
       '@types/node':
         optional: true
 
+  '@journeyapps/wa-sqlite@1.7.0':
+    resolution: {integrity: sha512-xQZ670aKDo4FWxIFpLqY0AGDpURr09aYIO08UkLdWvFw8C018nCiqY0ILJudGRhRdXORhv7K2xD2OXZ2QxU39w==}
+
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
 
@@ -1339,6 +1345,12 @@ packages:
 
   '@tailwindcss/postcss@4.2.4':
     resolution: {integrity: sha512-wgAVj6nUWAolAu8YFvzT2cTBIElWHkjZwFYovF+xsqKsW2ADxM/X2opxj5NsF/qVccAOjRNe8X2IdPzMsWyHTg==}
+
+  '@tanstack/browser-db-sqlite-persistence@0.1.9':
+    resolution: {integrity: sha512-HVcrHGkIw62nT8dTnlblUN9Zn5CewIWXNzPsQaMqDy7qmnvkgE58xJeRInYr3HKbmKMm/E/mlFBkZygRkPr0/w==}
+    peerDependencies:
+      '@journeyapps/wa-sqlite': ^1.4.1
+      typescript: '>=4.7'
 
   '@tanstack/db-ivm@0.1.18':
     resolution: {integrity: sha512-+pZJiRKdoKRM5Epq9T7otD9ZJl82pRFauo7LKuJGrarjVKQ7r+QQlPe3kGdN9LEKSnuNGIWjX9OOY4M8kH4eLw==}
@@ -4312,6 +4324,8 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.15.3
 
+  '@journeyapps/wa-sqlite@1.7.0': {}
+
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -4724,6 +4738,12 @@ snapshots:
       '@tailwindcss/oxide': 4.2.4
       postcss: 8.5.14
       tailwindcss: 4.2.4
+
+  '@tanstack/browser-db-sqlite-persistence@0.1.9(@journeyapps/wa-sqlite@1.7.0)(typescript@5.9.3)':
+    dependencies:
+      '@journeyapps/wa-sqlite': 1.7.0
+      '@tanstack/db-sqlite-persistence-core': 0.1.9(typescript@5.9.3)
+      typescript: 5.9.3
 
   '@tanstack/db-ivm@0.1.18(typescript@5.9.3)':
     dependencies:

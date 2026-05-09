@@ -4,6 +4,7 @@
     "allowJs": true,
     "target": "es2020",
     "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,

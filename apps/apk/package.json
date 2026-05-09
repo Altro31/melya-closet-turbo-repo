@@ -30,6 +30,7 @@
     "@tanstack/react-pacer": "^0.21.1",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/tauri-db-sqlite-persistence": "0.1.9",
+    "@tanstack/browser-db-sqlite-persistence": "0.1.9",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-sql": "^2.4.0",

@@ -1,9 +1,14 @@
+import { isProd } from "@/lib/tauri" 
 import { electricCollectionOptions } from "@tanstack/electric-db-collection";
 import { createCollection } from "@tanstack/react-db";
 import {
   createTauriSQLitePersistence,
   persistedCollectionOptions,
 } from "@tanstack/tauri-db-sqlite-persistence";
+import {
+  createBrowserWASQLitePersistence,
+  openBrowserWASQLiteOPFSDatabase,
+} from "@tanstack/browser-db-sqlite-persistence";
 import Database from "@tauri-apps/plugin-sql";
 
 type TableName =
@@ -21,11 +26,25 @@ export function getElectricUrl(): string {
   return `${url.replace(/\/$/, "")}/api/electric`;
 }
 
-const database = await Database.load(`sqlite:tanstack-db.sqlite`);
+async function getPersistence() {
+  if (isProd()) {
+    const database = await Database.load(`sqlite:tanstack-db.sqlite`);
 
-const persistence = createTauriSQLitePersistence({
-  database,
-});
+    return createTauriSQLitePersistence({
+      database,
+    });
+  } else {
+    const database = await openBrowserWASQLiteOPFSDatabase({
+      databaseName: `tanstack-db.sqlite`,
+    });
+
+    return createBrowserWASQLitePersistence({
+      database,
+    });
+  }
+}
+
+const persistence = await getPersistence();
 
 export const createElectricCollection = <T extends { id: string }>({
   id,
@@ -50,7 +69,7 @@ export const createElectricCollection = <T extends { id: string }>({
     persistedCollectionOptions<T, string | number>({
       ...(collectionOptions as any),
       persistence,
-      schemaVersion: 3,
+      schemaVersion: 1,
     }),
   );
 };
