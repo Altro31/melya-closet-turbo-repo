@@ -3,6 +3,7 @@ import { Elysia } from "elysia";
 const baseUrl = `${process.env.ELECTRIC_URL}/v1/shape`;
 
 export const electricModule = new Elysia().get("/api/electric", async ({ request }) => {
+
   const url = new URL(request.url);
   const originUrl = new URL(baseUrl);
 
