@@ -35,4 +35,3 @@ const app = new Elysia()
 console.log(`Melya backend listening on http://localhost:${port}`);
 
 export type AppType = typeof app;
-export default app.compile();
