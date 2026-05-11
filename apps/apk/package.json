@@ -6,7 +6,8 @@
     "dev": "next dev -p 4001",
     "build": "next build",
     "start": "next start -p 4002",
-    "build:android": "tauri build --target android",
+    "build:desktop": "tauri build",
+    "build:android": "tauri android build",
     "tauri": "tauri"
   },
   "dependencies": {

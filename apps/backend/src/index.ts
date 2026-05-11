@@ -7,7 +7,15 @@ import { orderModule } from "./modules/order";
 import { productModule } from "./modules/product";
 import { userModule } from "./modules/users";
 
-const port = Number(process.env.PORT ?? 3000);
+const portValue = process.env.PORT;
+const defaultPort = process.env.RENDER === "true" ? "10000" : "3000";
+const port = Number.parseInt(portValue ?? defaultPort, 10);
+
+if (!Number.isInteger(port) || port <= 0) {
+  throw new Error(`Invalid PORT value: ${portValue ?? "undefined"}`);
+}
+
+const hostname = process.env.HOST?.trim() || "0.0.0.0";
 
 const app = new Elysia()
   .onRequest(({ request, set }) => {
@@ -29,10 +37,11 @@ const app = new Elysia()
   .use(electricModule)
   .use(orderModule)
   .use(productModule)
-  .use(userModule)
-  .listen(port);
+  .use(userModule);
 
-console.log(`Melya backend listening on http://localhost:${port}`);
+app.listen({ hostname, port });
+
+console.log(`Melya backend listening on http://${hostname}:${port}`);
 
 export type AppType = typeof app;
 export default app
