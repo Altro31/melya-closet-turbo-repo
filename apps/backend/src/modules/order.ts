@@ -1,29 +1,57 @@
-import { Elysia } from "elysia";
-import { db } from "../db.ts";
-import { CreateOrderSchema, UpdateOrderSchema } from "../schemas/models.ts";
-import { IdParamSchema } from "./common.ts";
+import { Effect, Schema } from "effect";
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
+import { DatabaseClient } from "../common/db";
+import { IdParams } from "./common";
 
-export const orderModule = new Elysia({ prefix: "/api/orders" })
-  .post("/", ({ body }) =>
-    db.order.create({
-      data: body,
-    }),
-  {
-    body: CreateOrderSchema,
-  })
-  .patch("/:id", ({ params, body }) =>
-    db.order.update({
-      where: { id: params.id },
-      data: body,
-    }),
-  {
-    params: IdParamSchema,
-    body: UpdateOrderSchema,
-  })
-  .delete("/:id", ({ params }) =>
-    db.order.delete({
-      where: { id: params.id },
-    }),
-  {
-    params: IdParamSchema,
-  });
+export class OrderModule {
+  static api = HttpApi.make("Api").add(
+    HttpApiGroup.make("orders")
+      .add(
+        HttpApiEndpoint.post("create", "/", {
+          payload: Schema.Any,
+          success: Schema.Any,
+        }),
+      )
+      .add(
+        HttpApiEndpoint.patch("update", "/:id", {
+          params: IdParams,
+          payload: Schema.Any,
+          success: Schema.Any,
+        }),
+      )
+      .add(
+        HttpApiEndpoint.delete("delete", "/:id", {
+          params: IdParams,
+          success: Schema.Any,
+        }),
+      )
+      .prefix("/orders"),
+  );
+
+  static group = HttpApiBuilder.group(this.api, "orders", (handlers) =>
+    handlers
+      .handle(
+        "create",
+        Effect.fn("OrderModule.create")(function* ({ payload }) {
+          const client = yield* DatabaseClient;
+          return yield* Effect.promise(() => client.order.create({ data: payload as any }));
+        }, Effect.provide(DatabaseClient.layer)),
+      )
+      .handle(
+        "update",
+        Effect.fn("OrderModule.update")(function* ({ params, payload }) {
+          const client = yield* DatabaseClient;
+          return yield* Effect.promise(() =>
+            client.order.update({ where: { id: params.id }, data: payload as any }),
+          );
+        }, Effect.provide(DatabaseClient.layer)),
+      )
+      .handle(
+        "delete",
+        Effect.fn("OrderModule.delete")(function* ({ params }) {
+          const client = yield* DatabaseClient;
+          return yield* Effect.promise(() => client.order.delete({ where: { id: params.id } }));
+        }, Effect.provide(DatabaseClient.layer)),
+      ),
+  );
+}

@@ -1,47 +1,36 @@
-import { Elysia } from "elysia";
-import { baleCategoriesModule } from "./modules/bale-categories";
-import { baleModule } from "./modules/bale";
-import { clientModule } from "./modules/client";
-import { electricModule } from "./modules/electric";
-import { orderModule } from "./modules/order";
-import { productModule } from "./modules/product";
-import { userModule } from "./modules/users";
+import { NodeHttpServer, NodeRuntime } from "@effect/platform-node";
+import { Layer } from "effect";
+import { HttpRouter } from "effect/unstable/http";
+import { HttpApi, HttpApiBuilder } from "effect/unstable/httpapi";
+import { createServer } from "node:http";
+import { BaleCategoriesModule } from "./modules/bale-categories.js";
+import { BaleModule } from "./modules/bale.js";
+import { ClientModule } from "./modules/client.js";
+import { ElectricModule } from "./modules/electric.js";
+import { OrderModule } from "./modules/order.js";
+import { ProductModule } from "./modules/product.js";
+import { UserModule } from "./modules/users.js";
 
-const portValue = process.env.PORT;
-const defaultPort = process.env.RENDER === "true" ? "10000" : "3000";
-const port = Number.parseInt(portValue ?? defaultPort, 10);
+export const Api = HttpApi.make("Api")
+  .addHttpApi(BaleCategoriesModule.api)
+  .addHttpApi(BaleModule.api)
+  .addHttpApi(ClientModule.api)
+  .addHttpApi(OrderModule.api)
+  .addHttpApi(ProductModule.api)
+  .addHttpApi(UserModule.api);
 
-if (!Number.isInteger(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: ${portValue ?? "undefined"}`);
-}
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-const hostname = process.env.HOST?.trim() || "0.0.0.0";
+const ApiLive = HttpApiBuilder.layer(Api).pipe(
+  Layer.provide(BaleCategoriesModule.group),
+  Layer.provide(BaleModule.group),
+  Layer.provide(ClientModule.group),
+  Layer.provide(OrderModule.group),
+  Layer.provide(ProductModule.group),
+  Layer.provide(UserModule.group),
+  Layer.provide(ElectricModule),
+  HttpRouter.serve,
+  Layer.provide(NodeHttpServer.layer(createServer, { port })),
+);
 
-const app = new Elysia()
-  .onRequest(({ request, set }) => {
-    const origin = request.headers.get("origin");
-
-    set.headers["access-control-allow-origin"] = origin ?? "*";
-    set.headers["access-control-allow-methods"] = "GET,POST,PATCH,DELETE,OPTIONS";
-    set.headers["access-control-allow-headers"] = "Content-Type";
-    set.headers.vary = "Origin";
-  })
-  .options("/api/*", ({ set }) => {
-    set.status = 204;
-    return "";
-  })
-  .get("/", () => ({ status: "ok" }))
-  .use(baleCategoriesModule)
-  .use(baleModule)
-  .use(clientModule)
-  .use(electricModule)
-  .use(orderModule)
-  .use(productModule)
-  .use(userModule);
-
-app.listen({ hostname, port });
-
-console.log(`Melya backend listening on http://${hostname}:${port}`);
-
-export type AppType = typeof app;
-export default app
+Layer.launch(ApiLive).pipe(NodeRuntime.runMain);

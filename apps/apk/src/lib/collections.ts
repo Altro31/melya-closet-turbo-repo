@@ -1,5 +1,5 @@
 import { createElectricCollection } from "@/lib/electric";
-import { eden } from "@/lib/eden";
+import { apiClient } from "@/lib/api-client";
 import { applyChanges } from "@/lib/mutation";
 import { factory } from "@/lib/zod";
 
@@ -89,92 +89,92 @@ const offline = startOfflineExecutor({
   mutationFns: {
     async createClient({ transaction }) {
       const newItem = transaction.mutations[0].modified as Client;
-      await eden.client.create.mutate(newItem);
+      await apiClient.client.create.mutate(newItem);
     },
     async updateClient({ transaction }) {
       const mutation = transaction.mutations[0];
       const id = mutation.key as string;
       const changes = mutation.changes as Partial<Client>;
-      await eden.client.update.mutate([id, changes]);
+      await apiClient.client.update.mutate([id, changes]);
     },
     async deleteClient({ transaction }) {
       const id: string = transaction.mutations[0].key;
-      await eden.client.delete.mutate(id);
+      await apiClient.client.delete.mutate(id);
     },
 
     async createUser({ transaction }) {
       const newItem = transaction.mutations[0].modified as User;
-      await eden.user.create.mutate(newItem);
+      await apiClient.user.create.mutate(newItem);
     },
     async updateUser({ transaction }) {
       const mutation = transaction.mutations[0];
       const id = mutation.key as string;
       const changes = mutation.changes as Partial<User>;
-      await eden.user.update.mutate([id, changes]);
+      await apiClient.user.update.mutate([id, changes]);
     },
     async deleteUser({ transaction }) {
       const id: string = transaction.mutations[0].key;
-      await eden.user.delete.mutate(id);
+      await apiClient.user.delete.mutate(id);
     },
 
     async createProduct({ transaction }) {
       const newItem = transaction.mutations[0].modified as Product;
-      await eden.product.create.mutate(newItem);
+      await apiClient.product.create.mutate(newItem);
     },
     async updateProduct({ transaction }) {
       const mutation = transaction.mutations[0];
       const id = mutation.key as string;
       const changes = mutation.changes as Partial<Product>;
-      await eden.product.update.mutate([id, changes]);
+      await apiClient.product.update.mutate([id, changes]);
     },
     async deleteProduct({ transaction }) {
       const id: string = transaction.mutations[0].key;
-      await eden.product.delete.mutate(id);
+      await apiClient.product.delete.mutate(id);
     },
 
     async createOrder({ transaction }) {
       const newItem = transaction.mutations[0].modified as Order;
-      await eden.order.create.mutate(newItem);
+      await apiClient.order.create.mutate(newItem);
     },
     async updateOrder({ transaction }) {
       const mutation = transaction.mutations[0];
       const id = mutation.key as string;
       const changes = mutation.changes as Partial<Order>;
-      await eden.order.update.mutate([id, changes]);
+      await apiClient.order.update.mutate([id, changes]);
     },
     async deleteOrder({ transaction }) {
       const id: string = transaction.mutations[0].key;
-      await eden.order.delete.mutate(id);
+      await apiClient.order.delete.mutate(id);
     },
 
     async createBaleCategory({ transaction }) {
       const newItem = transaction.mutations[0].modified as BaleCategory;
-      await eden.baleCategories.create.mutate(newItem);
+      await apiClient.baleCategories.create.mutate(newItem);
     },
     async updateBaleCategory({ transaction }) {
       const mutation = transaction.mutations[0];
       const id = mutation.key as string;
       const changes = mutation.changes as Partial<BaleCategory>;
-      await eden.baleCategories.update.mutate([id, changes]);
+      await apiClient.baleCategories.update.mutate([id, changes]);
     },
     async deleteBaleCategory({ transaction }) {
       const id: string = transaction.mutations[0].key;
-      await eden.baleCategories.delete.mutate(id);
+      await apiClient.baleCategories.delete.mutate(id);
     },
 
     async createBale({ transaction }) {
       const newItem = transaction.mutations[0].modified as Bale;
-      await eden.bale.create.mutate(newItem);
+      await apiClient.bale.create.mutate(newItem);
     },
     async updateBale({ transaction }) {
       const mutation = transaction.mutations[0];
       const id = mutation.key as string;
       const changes = mutation.changes as Partial<Bale>;
-      await eden.bale.update.mutate([id, changes]);
+      await apiClient.bale.update.mutate([id, changes]);
     },
     async deleteBale({ transaction }) {
       const id: string = transaction.mutations[0].key;
-      await eden.bale.delete.mutate(id);
+      await apiClient.bale.delete.mutate(id);
     },
   },
 });
