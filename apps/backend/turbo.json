@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "interruptible": true
+    },
+    "dev:turbo": {
+      "cache": false,
+      "persistent": true,
+      "interruptible": true
+    },
+    "build": {
+      "outputs": ["dist/**"],
+      "outputLogs": "none",
+      "inputs": ["$TURBO_DEFAULT$", "!dist", "!node_modules"]
+    }
+  }
+}

@@ -4,7 +4,7 @@
   "scripts": {
     "apk": "pnpm --dir apps/apk",
     "db": "pnpm --dir packages/db",
-    "dev:backend": "cd apps/backend && pnpm dev",
+    "back": "pnpm --dir=apps/backend",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
@@ -12,11 +12,10 @@
     "build:android": "pnpm --dir apps/apk run build:android"
   },
   "devDependencies": {
-    "turbo": "^2.9.10",
-    "typescript": "5.9.2"
+    "turbo": "^2.9.10"
   },
-  "packageManager": "pnpm@11.0.9",
   "engines": {
     "node": ">=18"
-  }
+  },
+  "packageManager": "pnpm@11.0.9"
 }

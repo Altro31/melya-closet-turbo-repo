@@ -11,9 +11,6 @@ importers:
       turbo:
         specifier: ^2.9.10
         version: 2.9.10
-      typescript:
-        specifier: 5.9.2
-        version: 5.9.2
 
   apps/apk:
     dependencies:
@@ -35,6 +32,9 @@ importers:
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@19.2.6)
+      '@effect/platform-browser':
+        specifier: 4.0.0-beta.65
+        version: 4.0.0-beta.65(effect@4.0.0-beta.65)
       '@electric-sql/client':
         specifier: ^1.5.15
         version: 1.5.16
@@ -146,9 +146,6 @@ importers:
       nuqs:
         specifier: ^2.8.9
         version: 2.8.9(next@16.2.1(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
-      pg:
-        specifier: ^8.20.0
-        version: 8.20.0
       react:
         specifier: 19.2.6
         version: 19.2.6
@@ -514,6 +511,11 @@ packages:
     engines: {bun: '>=1', deno: '>=2.7.10', node: '>=16'}
     peerDependencies:
       '@noble/ciphers': ^1.0.0
+
+  '@effect/platform-browser@4.0.0-beta.65':
+    resolution: {integrity: sha512-w+79bFERZIJq2AmjCcnW8Uei1nv3S8q/4gEreUhW7VORuWuCsGZvUrQgjtNrftnzA3bPk78PBvGIJgYrz1IV0g==}
+    peerDependencies:
+      effect: ^4.0.0-beta.65
 
   '@effect/platform-node-shared@4.0.0-beta.65':
     resolution: {integrity: sha512-3rY8F3WLEax6Hj08GI/OvDIH+KqjfxH7RM2bAMfgR75NgRmwDtny1P49PtPkoRjH5dcdtThThtsvE4X9OTZkpQ==}
@@ -4189,11 +4191,6 @@ packages:
     resolution: {integrity: sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==}
     engines: {node: '>= 0.6'}
 
-  typescript@5.9.2:
-    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
     engines: {node: '>=14.17'}
@@ -4706,6 +4703,11 @@ snapshots:
   '@ecies/ciphers@0.2.6(@noble/ciphers@1.3.0)':
     dependencies:
       '@noble/ciphers': 1.3.0
+
+  '@effect/platform-browser@4.0.0-beta.65(effect@4.0.0-beta.65)':
+    dependencies:
+      effect: 4.0.0-beta.65
+      multipasta: 0.2.7
 
   '@effect/platform-node-shared@4.0.0-beta.65(effect@4.0.0-beta.65)':
     dependencies:
@@ -7997,8 +7999,6 @@ snapshots:
       content-type: 1.0.5
       media-typer: 1.1.0
       mime-types: 3.0.2
-
-  typescript@5.9.2: {}
 
   typescript@5.9.3: {}
 

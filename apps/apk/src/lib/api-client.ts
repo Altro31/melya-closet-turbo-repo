@@ -1,13 +1,15 @@
-import { Effect } from "effect";
-import { FetchHttpClient } from "effect/unstable/http";
-import { HttpApiClient } from "effect/unstable/httpapi";
-import type { BaleCategory } from "@/types/bale-category";
 import type { Bale } from "@/types/bale";
+import type { BaleCategory } from "@/types/bale-category";
 import type { Client } from "@/types/client";
 import type { Order } from "@/types/order";
 import type { Product } from "@/types/product";
 import type { User } from "@/types/user";
 import { Api } from "backend";
+import { Effect } from "effect";
+import { FetchHttpClient } from "effect/unstable/http";
+import { HttpApiClient } from "effect/unstable/httpapi";
+
+export const apiUrlBuilder = HttpApiClient.urlBuilder(Api, { baseUrl: process.env.NEXT_PUBLIC_API_URL });
 
 const rawApiClient = HttpApiClient.make(Api, {
   baseUrl: process.env.NEXT_PUBLIC_API_URL,
@@ -23,13 +25,19 @@ async function runRequest<TData>(
 }
 
 function createCrudClient<TModel>(resource: {
-  create: (client: Awaited<typeof apiClientPromise>, input: TModel) => Effect.Effect<unknown, unknown, never>;
+  create: (
+    client: Awaited<typeof apiClientPromise>,
+    input: TModel,
+  ) => Effect.Effect<unknown, unknown, never>;
   update: (
     client: Awaited<typeof apiClientPromise>,
     id: string,
     changes: Partial<TModel>,
   ) => Effect.Effect<unknown, unknown, never>;
-  delete: (client: Awaited<typeof apiClientPromise>, id: string) => Effect.Effect<unknown, unknown, never>;
+  delete: (
+    client: Awaited<typeof apiClientPromise>,
+    id: string,
+  ) => Effect.Effect<unknown, unknown, never>;
 }) {
   return {
     create: {

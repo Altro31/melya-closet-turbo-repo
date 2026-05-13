@@ -1,10 +1,11 @@
+import { schema } from "@repo/db/schema.js";
 import { ZenStackClient } from "@zenstackhq/orm";
 import { PostgresDialect } from "@zenstackhq/orm/dialects/postgres";
-import { Pool } from "pg";
-import { schema } from "@repo/db/schema.ts";
 import { Context, Effect, Layer } from "effect";
+import { Pool } from "pg";
 
-export const db = new ZenStackClient(schema, {
+export type DB = typeof db;
+const db = new ZenStackClient(schema, {
   dialect: new PostgresDialect({
     pool: new Pool({
       connectionString: process.env.DATABASE_URL,
@@ -21,7 +22,7 @@ export const db = new ZenStackClient(schema, {
   },
 });
 
-export class DatabaseClient extends Context.Service<DatabaseClient>()("DatabaseClient", {
+export class DatabaseClientBase extends Context.Service<DatabaseClientBase>()("DatabaseClient", {
   make: () => Effect.succeed(db),
 }) {
   static readonly layer = Layer.effect(this, this.make());

@@ -1,7 +1,7 @@
 import { Effect, Schema } from "effect";
 import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup } from "effect/unstable/httpapi";
-import { DatabaseClient } from "../common/db";
-import { IdParams } from "./common";
+import { DatabaseClient } from "@/common/db";
+import { IdParams } from "@/lib/params";
 
 export class BaleCategoriesModule {
   static api = HttpApi.make("Api").add(

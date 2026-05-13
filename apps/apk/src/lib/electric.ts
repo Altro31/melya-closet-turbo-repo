@@ -1,4 +1,4 @@
-import { isProd } from "@/lib/tauri" 
+import { isProd } from "./tauri.ts" with { type: "macro" };
 import { electricCollectionOptions } from "@tanstack/electric-db-collection";
 import { createCollection } from "@tanstack/react-db";
 import {
@@ -10,6 +10,7 @@ import {
   openBrowserWASQLiteOPFSDatabase,
 } from "@tanstack/browser-db-sqlite-persistence";
 import Database from "@tauri-apps/plugin-sql";
+import { apiUrlBuilder } from "@/lib/api-client.ts";
 
 type TableName =
   | "bale"
@@ -20,11 +21,6 @@ type TableName =
   | "product"
   | "user_log"
   | "user";
-
-export function getElectricUrl(): string {
-  const url = process.env.NEXT_PUBLIC_API_URL ?? process.env.API_URL ?? "http://localhost:3000";
-  return `${url.replace(/\/$/, "")}/api/electric`;
-}
 
 async function getPersistence() {
   if (isProd()) {
@@ -56,7 +52,7 @@ export const createElectricCollection = <T extends { id: string }>({
   const collectionOptions = electricCollectionOptions<T>({
     id,
     shapeOptions: {
-      url: getElectricUrl(),
+      url: apiUrlBuilder.electric(),
       params: { table },
     },
     getKey: (i) => i.id,

@@ -10,7 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 export function formatNumber(
   value: number,
   options?: Intl.NumberFormatOptions,
-  locale: Intl.LocalesArgument = APP_LOCALE
+  locale: Intl.LocalesArgument = APP_LOCALE,
 ) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
@@ -20,3 +20,4 @@ export function sleep(seconds: number) {
   setTimeout(resolve, seconds * 1000);
   return promise;
 }
+

@@ -21,9 +21,8 @@
       }
     ],
     "paths": {
-      "@/schema/*": ["./schema/generated/*"],
       "@/*": ["./src/*"]
-    }
+    },
   },
   "include": [
     "next-env.d.ts",

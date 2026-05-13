@@ -1,4 +1,4 @@
-import { Page, PageHeader, PageTitle } from "@/components/ui/page";
+import { Page } from "@/components/ui/page";
 import { DailyIncome } from "@/sections/dashboard/daily-income";
 import { QuickStats } from "@/sections/dashboard/quick-stats";
 import { RecentOrders } from "@/sections/dashboard/recent-orders";

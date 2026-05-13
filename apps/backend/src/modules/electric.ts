@@ -1,29 +1,57 @@
-import { Effect } from "effect";
-import { HttpRouter, HttpServerResponse } from "effect/unstable/http";
+import { Effect, Exit, Option, Schema, Stream } from "effect";
+import { FetchHttpClient, HttpClient, HttpServerResponse } from "effect/unstable/http";
+import {
+  HttpApi,
+  HttpApiBuilder,
+  HttpApiEndpoint,
+  HttpApiGroup,
+  HttpApiSchema,
+} from "effect/unstable/httpapi";
 
 const baseUrl = `${process.env.ELECTRIC_URL}/v1/shape`;
 
-export const ElectricModule = HttpRouter.add("GET", "/api/electric", (request) =>
-  Effect.gen(function* () {
-    const url = new URL(request.url, "http://localhost");
-    const originUrl = new URL(baseUrl);
+export class ElectricModule {
+  static api = HttpApi.make("Api").add(
+    HttpApiGroup.make("electric", { topLevel: true }).add(
+      HttpApiEndpoint.get("electric", "/electric", {
+        success: Schema.Any.pipe(
+          HttpApiSchema.asText({
+            contentType: "application/octet-stream",
+          }),
+        ),
+      }),
+    ),
+  );
 
-    url.searchParams.forEach((value, key) => {
-      originUrl.searchParams.set(key, value);
-    });
+  static group = HttpApiBuilder.group(this.api, "electric", (handlers) =>
+    handlers.handle(
+      "electric",
+      Effect.fn("Electric")(function* ({ request }) {
+        const client = yield* HttpClient.HttpClient;
+        const url = new URL(request.url, "http://localhost");
+        const originUrl = new URL(baseUrl);
 
-    const response = yield* Effect.promise(() => fetch(originUrl));
-    const headers = Object.fromEntries(response.headers.entries());
-    
-    delete headers["content-encoding"];
-    delete headers["content-length"];
+        url.searchParams.forEach((value, key) => {
+          originUrl.searchParams.set(key, value);
+        });
 
-    const body = yield* Effect.promise(() => response.arrayBuffer());
+        const responseExit = yield* client.get(originUrl).pipe(Effect.exit);
+        if (Exit.isFailure(responseExit)) {
+          return responseExit.cause.reasons[0];
+        }
 
-    return HttpServerResponse.uint8Array(new Uint8Array(body), {
-      status: response.status,
-      statusText: response.statusText,
-      headers,
-    });
-  }),
-);
+        const response = responseExit.value;
+        const headers = response.headers;
+
+        return HttpServerResponse.stream(response.stream, {
+          status: response.status,
+          headers: {
+            ...headers,
+            ["content-encoding"]: undefined,
+            ["content-length"]: undefined,
+          },
+        });
+      }, Effect.provide(FetchHttpClient.layer)),
+    ),
+  );
+}
